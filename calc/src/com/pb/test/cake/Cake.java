@@ -21,6 +21,13 @@ class Cake implements Eatable {
         testCakes();
         testInstanceOf();
         testInterface();
+
+        new Eatable() { // anonymous
+            @Override
+            public void setEaten() {
+                System.out.println("its not a cake");
+            }
+        }.setEaten();
     }
 
     private static void testCakes() {
