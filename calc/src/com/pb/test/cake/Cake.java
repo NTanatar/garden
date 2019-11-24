@@ -1,5 +1,7 @@
 package com.pb.test.cake;
 
+import com.pb.test.tools.Test;
+
 class Cake implements Eatable {
     static int numCakesInTheWorld = 0;
     int sugarInGrams;
@@ -41,6 +43,8 @@ class Cake implements Eatable {
         System.out.println("total cakes: " + Cake.numCakesInTheWorld);
         System.out.println("sugar in cake " + sweetCake.sugarInGrams);
         System.out.println("sugar in muffin " + smallMuffin.sugarInGrams);
+        Test.reflect(sweetCake);
+        Test.reflect(smallMuffin);
     }
 
     private static void testInterface() {
@@ -67,6 +71,7 @@ class Cake implements Eatable {
         System.out.println(wow instanceof Cake);
         System.out.println(wow instanceof Eatable);
         System.out.println(wow instanceof PartlyEatable);
+        Test.reflect(wow); // should we see field and method inherited from Cake??
     }
 }
 

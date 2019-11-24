@@ -2,7 +2,7 @@ package com.pb.test.calc;
 
 import java.security.InvalidParameterException;
 
-class Calculator {
+public class Calculator {
 
     public static void main(String[] args) {
         String input = takeInput("hi! enter the first number or <enter> for quit:");

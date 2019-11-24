@@ -1,5 +1,7 @@
 package com.pb.test.util;
 
+import com.pb.test.tools.Test;
+
 public abstract class HomeDevice {
 
     HomeDevice(String name, boolean isUsingElectricity) {
@@ -62,6 +64,7 @@ public abstract class HomeDevice {
             } else {
                 myDevices[i].apply();
             }
+            Test.reflect(myDevices[i]);
         }
     }
 }
