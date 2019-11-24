@@ -1,15 +1,21 @@
 package com.pb.test.calc;
 
+import com.pb.test.math.OperationNotFoundException;
+
 import java.security.InvalidParameterException;
 
 public class Calculator {
     private OperationFactory opFactory;
 
-    Calculator(OperationFactory opFactory) {
+    public Calculator(OperationFactory opFactory) {
         this.opFactory = opFactory;
     }
 
-    public void exec() {
+    public Calculator() {
+        this(new MyOpFactory());
+    }
+
+    public void exec() throws OperationNotFoundException {
         String input = takeInput("hi! enter the first number or <enter> for quit:");
 
         while (!input.isEmpty()) {
@@ -17,9 +23,7 @@ public class Calculator {
 
             input = takeInput("enter the operator:");
             Operation operation = opFactory.getOpInstance(input);
-            if (operation == null) {
-                throw new InvalidParameterException();
-            }
+
             input = takeInput("enter the second number:");
             double secondOperand = Double.parseDouble(input);
 
@@ -65,8 +69,8 @@ public class Calculator {
             jim.exec();
         } catch (NumberFormatException e) {
             System.err.println("This was not a number! Bye!");
-        } catch (InvalidParameterException e) {
-            System.out.println("invalid operator! expected: +, -, *, /  Bye!");
+        } catch (OperationNotFoundException e) {
+            System.out.println("Invalid operator (expected: +, -, *, /). Bye!");
         }
     }
 }
@@ -102,7 +106,7 @@ class OpDiv implements Operation {
 class MyOpFactory implements OperationFactory {
 
     @Override
-    public Operation getOpInstance(String op) {
+    public Operation getOpInstance(String op) throws OperationNotFoundException {
         switch (op) {
             case "+":
                 return new OpPlus();
@@ -112,8 +116,9 @@ class MyOpFactory implements OperationFactory {
                 return new OpMul();
             case "/":
                 return new OpDiv();
+            default:
+                throw new OperationNotFoundException();
         }
-        return null;
     }
 }
 
