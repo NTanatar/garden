@@ -2,13 +2,14 @@ package com.pb.test.cake;
 
 import com.pb.test.tools.Important;
 import com.pb.test.tools.NewYearParty;
+import com.pb.test.tools.Printer;
 import com.pb.test.tools.Test;
 
-class Cake implements Eatable {
+public class Cake implements Eatable {
     static int numCakesInTheWorld = 0;
     int sugarInGrams;
 
-    Cake() {
+    public Cake() {
         numCakesInTheWorld++;
         sugarInGrams = 0;
     }
@@ -17,13 +18,17 @@ class Cake implements Eatable {
         sugarInGrams += grams;
     }
 
+    public int getSugar() {
+        return sugarInGrams;
+    }
+
     public void setEaten() {
         numCakesInTheWorld--;
     }
 
     public static void main(String[] args) {
-        testCakes();
         testInstanceOf();
+        testCakes();
         testInterface();
 
         new Eatable() { // anonymous
@@ -44,11 +49,10 @@ class Cake implements Eatable {
         sweetCake.addSomeSugar(4);
         smallMuffin.addSomeSugar(30);
         smallMuffin.setEaten();
-        System.out.println("total cakes: " + Cake.numCakesInTheWorld);
-        System.out.println("sugar in cake " + sweetCake.sugarInGrams);
-        System.out.println("sugar in muffin " + smallMuffin.sugarInGrams);
-        Test.reflect(sweetCake);
         Test.reflect(smallMuffin);
+        Printer.printCakeSugar(sweetCake);
+        Printer.printCakeSugar(smallMuffin);
+        System.out.println("total cakes: " + Cake.numCakesInTheWorld);
     }
 
     private static void testInterface() {
