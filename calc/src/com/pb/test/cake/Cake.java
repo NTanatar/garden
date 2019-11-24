@@ -1,5 +1,7 @@
 package com.pb.test.cake;
 
+import com.pb.test.tools.Important;
+import com.pb.test.tools.NewYearParty;
 import com.pb.test.tools.Test;
 
 class Cake implements Eatable {
@@ -11,7 +13,7 @@ class Cake implements Eatable {
         sugarInGrams = 0;
     }
 
-    public void addSomeSugar(int grams) {
+    public void addSomeSugar(@Important int grams) {
         sugarInGrams += grams;
     }
 
@@ -30,6 +32,8 @@ class Cake implements Eatable {
                 System.out.println("its not a cake");
             }
         }.setEaten();
+
+        Test.printInfoFromAnnotation(Muffin.class);
     }
 
     private static void testCakes() {
@@ -75,6 +79,7 @@ class Cake implements Eatable {
     }
 }
 
+@NewYearParty
 class Muffin extends Cake {
 
     @Override

@@ -2,10 +2,8 @@ package com.pb.test.tools;
 
 import com.pb.test.calc.Calculator;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
 
 public class Test {
     public static void reflect(Object obj) {
@@ -19,7 +17,13 @@ public class Test {
         for (Class a : interfaces) {
             System.out.println("   " + a.getName());
         }
-        Field[] allFields = c.getDeclaredFields();
+        reflectFields(obj);
+        reflectMethods(c);
+        System.out.println("===================  ");
+    }
+
+    public static void reflectFields(Object obj) {
+        Field[] allFields = obj.getClass().getDeclaredFields();
         System.out.println("fields: ");
         for (Field field : allFields) {
             Class fieldType = field.getType();
@@ -30,11 +34,32 @@ public class Test {
                 System.out.println("could not access value " + field.getName());
             }
         }
+    }
+
+    public static void reflectMethods(Class c) {
         Method[] methods = c.getDeclaredMethods();
         for (Method method : methods) {
             System.out.println("method " + method.getName());
+            Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+            for (Annotation[] annotations : parameterAnnotations) {
+                for (Annotation annotation : annotations) {
+                    if (annotation instanceof Important) {
+                        System.out.println("  -> Important parameter");
+                    }
+                }
+            }
         }
-        System.out.println("====  ");
+    }
+
+    public static void printInfoFromAnnotation(Class cl) {
+        Annotation[] annotations = cl.getAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof NewYearParty) {
+                NewYearParty ann = (NewYearParty) annotation;
+                System.out.println("day: " + ann.day());
+                System.out.println("place: " + ann.place());
+            }
+        }
     }
 
     private static void invokeMethodByName(Object obj, String methodName, Class[] paramTypes, Object[] paramValues) {
