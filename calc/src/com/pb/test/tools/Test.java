@@ -70,11 +70,13 @@ public class Test {
             Object result = method.invoke(obj, paramValues);
             System.out.println(" = " + result);
         } catch (NoSuchMethodException e) {
-            System.out.println("wrong guess");
+            System.err.println("no such method " + e.getMessage());
         } catch (IllegalAccessException e) {
-            System.out.println("cannot access method");
+            System.err.println("cannot access method");
         } catch (InvocationTargetException e) {
-            System.out.println("invocation target exception");
+            System.err.println(e);
+        } finally {
+            System.out.println("Everything is under control");
         }
     }
 
@@ -84,9 +86,9 @@ public class Test {
             Class c = Class.forName(name);
             obj = c.newInstance();
         } catch (ClassNotFoundException e) {
-            System.out.println("class not found");
+            System.err.println("class not found " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("something went wrong");
+            System.err.println("something went wrong");
         }
         return obj;
     }
@@ -96,5 +98,8 @@ public class Test {
         Object[] params = new Object[] {new Character('+'), new Integer(41), new Integer(13)};
         Calculator calculator = (Calculator) createInstanceByClassName("com.pb.test.calc.Calculator");
         invokeMethodByName(calculator, "doCalculation", paramTypes, params);
+
+        createInstanceByClassName("com.pb.test.XXX");
+        invokeMethodByName(calculator, "nonExisting", paramTypes, params);
     }
 }
