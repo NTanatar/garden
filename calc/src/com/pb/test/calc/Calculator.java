@@ -1,6 +1,7 @@
 package com.pb.test.calc;
 
 import com.pb.test.math.OperationNotFoundException;
+import com.pb.test.tools.Important;
 
 import java.security.InvalidParameterException;
 
@@ -47,7 +48,7 @@ public class Calculator {
      * @param b        second operand
      * @return result of the specified operation
      */
-    private static int doCalculation(char operator, int a, int b) {
+    private static int doCalculation(@Important char operator, @Important int a, @Important int b) {
         switch (operator) {
             case '+':
                 return a + b;
