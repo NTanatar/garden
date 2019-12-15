@@ -14,35 +14,25 @@ public class Pipes {
         pipedInputStream.connect(pipedOutputStream);
 
         /*Thread for writing data to pipe*/
-        Thread pipeWriter = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 65; i < 91; i++) {
-                    try {
-                        pipedOutputStream.write(i);
-                        Thread.sleep(500);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        Thread pipeWriter = new Thread(() -> {
+            for (int i = 65; i < 91; i++) {
+                try {
+                    pipedOutputStream.write(i);
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
 
         /*Thread for reading data from pipe*/
-        Thread pipeReader = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 65; i < 91; i++) {
-                    try {
-                        System.out.print((char) pipedInputStream.read());
-                        Thread.sleep(1000);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        Thread pipeReader = new Thread(() -> {
+            for (int i = 65; i < 91; i++) {
+                try {
+                    System.out.print((char) pipedInputStream.read());
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
