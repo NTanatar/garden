@@ -4,6 +4,19 @@ import java.io.*;
 
 public class Main {
 
+    private static void fileTest(String name) throws IOException {
+        File f = new File(name);
+        if (f.exists()) {
+            System.out.println("+++ " + name + ": i am " + (f.isDirectory() ? "a directory" : "a file"));
+        } else {
+            System.out.println("+++ "+ name + ": no such file/dir " + f.getAbsolutePath());
+        }
+        System.out.println("parent " + f.getParent() + " abs " + f.isAbsolute());
+        System.out.println("canonical " + f.getCanonicalPath());
+        System.out.println("path " + f.getPath());
+    }
+
+
     private static void copyFile(String inputName, String outputName) {
         try {
             FileInputStream inStream = new FileInputStream(inputName);
@@ -42,8 +55,12 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         copyFile("src\\files\\input1.txt", "output1.txt");
         randomAccess();
+
+        fileTest("output1.txt");
+        fileTest("jo1.txt");
+        fileTest("src\\files");
     }
 }
