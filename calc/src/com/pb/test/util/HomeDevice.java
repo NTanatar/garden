@@ -37,34 +37,33 @@ public abstract class HomeDevice {
     public abstract void apply();
 
     public static void main(String[] args) {
-        final int NUM_DEVICES = 4;
-        HomeDevice[] myDevices = new HomeDevice[NUM_DEVICES];
-        myDevices[0] = new CoffeeMachine("Manfred");
-        myDevices[1] = new Freezer("William", 20);
-        myDevices[2] = new CookingPot();
-        // anonymous
-        myDevices[3] = new HomeDevice("thing", false) {
-            public void enable() {
-            }
+        HomeDevice[] myDevices = {
+            new CoffeeMachine("Manfred"),
+            new Freezer("William", 20),
+            new CookingPot(),
+            new HomeDevice("thing", false) {
+                public void enable() {
+                }
 
-            public void disable() {
-            }
+                public void disable() {
+                }
 
-            public void apply() {
-                System.out.println("some thing is working");
+                public void apply() {
+                    System.out.println("some thing is working");
+                }
             }
         };
 
-        for (int i = 0; i < NUM_DEVICES; i++) {
-            System.out.println("welcome, " + myDevices[i].getName());
-            if (myDevices[i].isUsingElectricity()) {
-                myDevices[i].enable();
-                myDevices[i].apply();
-                myDevices[i].disable();
+        for (HomeDevice device : myDevices) {
+            System.out.println("welcome, " + device.getName());
+            if (device.isUsingElectricity()) {
+                device.enable();
+                device.apply();
+                device.disable();
             } else {
-                myDevices[i].apply();
+                device.apply();
             }
-            Test.reflect(myDevices[i]);
+            Test.reflect(device);
         }
     }
 }
