@@ -1,6 +1,6 @@
 package com.pb.test.tools;
 
-import com.pb.test.calc.Calculator;
+import com.pb.test.calc.SimpleCalculator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -116,7 +116,7 @@ public class Test {
     public static void main(String[] args) {
         Class[] paramTypes = new Class[] {char.class, int.class, int.class};
         Object[] params = new Object[] {new Character('+'), new Integer(41), new Integer(13)};
-        Calculator calculator = (Calculator) createInstanceByClassName("com.pb.test.calc.Calculator");
+        SimpleCalculator calculator = (SimpleCalculator) createInstanceByClassName("com.pb.test.calc.SimpleCalculator");
         invokeMethodByName(calculator, "doCalculation", paramTypes, params);
 
         Object[] paramsWithNull = new Object[] {new Character('+'), null, new Integer(13)};
