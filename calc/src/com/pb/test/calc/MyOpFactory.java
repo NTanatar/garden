@@ -6,21 +6,37 @@ import com.pb.test.calc.operation.OpMul;
 import com.pb.test.calc.operation.OpPlus;
 import com.pb.test.math.OperationNotFoundException;
 
+import java.util.HashMap;
+
 public class MyOpFactory implements OperationFactory {
 
+    private HashMap<String, Operation> operations = new HashMap<String, Operation>();
+
     @Override
-    public Operation getOpInstance(String op) throws OperationNotFoundException {
-        switch (op) {
+    public Operation getOpInstance(String id) throws OperationNotFoundException {
+        if (operations.containsKey(id)) {
+            System.out.println("found in cache: " + id);
+            return operations.get(id);
+        }
+        Operation op;
+        switch (id) {
             case "+":
-                return new OpPlus();
+                op = new OpPlus();
+                break;
             case "-":
-                return new OpMinus();
+                op = new OpMinus();
+                break;
             case "*":
-                return new OpMul();
+                op = new OpMul();
+                break;
             case "/":
-                return new OpDiv();
+                op = new OpDiv();
+                break;
             default:
                 throw new OperationNotFoundException();
         }
+        System.out.println("created: " + id);
+        operations.put(id, op);
+        return op;
     }
 }
