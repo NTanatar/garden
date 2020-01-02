@@ -2,6 +2,8 @@ package com.pb.test.calc;
 
 import com.pb.test.math.OperationNotFoundException;
 
+import java.util.StringTokenizer;
+
 public class Calculator {
     private OperationFactory opFactory;
 
@@ -9,7 +11,7 @@ public class Calculator {
         this.opFactory = opFactory;
     }
 
-    public void exec() throws OperationNotFoundException {
+    public void executeReadingArgumentsOneByOne() throws OperationNotFoundException {
         String input = takeInput("hi! enter the first number or <enter> for quit:");
 
         while (!input.isEmpty()) {
@@ -33,15 +35,36 @@ public class Calculator {
         return System.console().readLine();
     }
 
+    private void executeUsingTokenizer() throws OperationNotFoundException {
+        String input = takeInput("hi! enter <arg1> <operator> <arg2> or <enter> for quit:");
+
+        while (!input.isEmpty()) {
+            StringTokenizer t = new StringTokenizer(input, " ", false);
+            if (t.countTokens() != 3) {
+                throw new IllegalArgumentException("wrong number of arguments!");
+            }
+            double firstOperand = Double.parseDouble(t.nextToken());
+            Operation operation = opFactory.getOpInstance(t.nextToken());
+            double secondOperand = Double.parseDouble(t.nextToken());
+
+            double result = operation.exec(firstOperand, secondOperand);
+            System.out.println(" = " + result);
+
+            input = takeInput("enter <arg1> <operator> <arg2> or <enter> for quit:");
+        }
+    }
+
     public static void main(String[] args) {
         OperationFactory myFactory = new MyOpFactory();
         Calculator jim = new Calculator(myFactory);
         try {
-            jim.exec();
+            jim.executeUsingTokenizer();
         } catch (NumberFormatException e) {
             System.err.println("This was not a number! Bye!");
         } catch (OperationNotFoundException e) {
             System.out.println("Invalid operator (expected: +, -, *, /). Bye!");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
