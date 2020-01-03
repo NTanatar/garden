@@ -2,6 +2,7 @@ package com.pb.test.calc;
 
 import com.pb.test.math.OperationNotFoundException;
 
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Calculator {
@@ -12,31 +13,37 @@ public class Calculator {
     }
 
     public void executeReadingArgumentsOneByOne() throws OperationNotFoundException {
-        String input = takeInput("hi! enter the first number or <enter> for quit:");
+        String input = takeInputFromConsole("hi! enter the first number or <enter> for quit:");
 
         while (!input.isEmpty()) {
             double firstOperand = Double.parseDouble(input);
 
-            input = takeInput("enter the operator:");
+            input = takeInputFromConsole("enter the operator:");
             Operation operation = opFactory.getOpInstance(input);
 
-            input = takeInput("enter the second number:");
+            input = takeInputFromConsole("enter the second number:");
             double secondOperand = Double.parseDouble(input);
 
             double result = operation.exec(firstOperand, secondOperand);
             System.out.println(" = " + result);
 
-            input = takeInput("enter the first number or <enter> for quit:");
+            input = takeInputFromConsole("enter the first number or <enter> for quit:");
         }
     }
 
-    private static String takeInput(String message) {
+    private static String takeInputFromConsole(String message) {
         System.out.println(message);
         return System.console().readLine();
     }
 
+    private static String getInput(Scanner scanner, String message) {
+        System.out.println(message);
+        return scanner.nextLine();
+    }
+
     private void executeUsingTokenizer() throws OperationNotFoundException {
-        String input = takeInput("hi! enter <arg1> <operator> <arg2> or <enter> for quit:");
+        Scanner scanner = new Scanner(System.in);
+        String input = getInput(scanner, "hi! enter <arg1> <operator> <arg2> or <enter> for quit:");
 
         while (!input.isEmpty()) {
             StringTokenizer t = new StringTokenizer(input, " ", false);
@@ -50,7 +57,7 @@ public class Calculator {
             double result = operation.exec(firstOperand, secondOperand);
             System.out.println(" = " + result);
 
-            input = takeInput("enter <arg1> <operator> <arg2> or <enter> for quit:");
+            input = getInput(scanner, "enter <arg1> <operator> <arg2> or <enter> for quit:");
         }
     }
 
