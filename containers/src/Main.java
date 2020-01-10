@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Main {
 
@@ -39,5 +40,13 @@ public class Main {
         System.out.println(Arrays.toString(items));
 
         System.out.println("Hello World!");
+        CustomSet<Integer> prizes = new CustomSet<Integer>();
+        int[] values = {1,100,2,20, 22,202,3,30,33};
+        for (int i : values) {
+            prizes.add(i);
+        }
+        System.out.println("max: "+ Collections.max(prizes));
+        System.out.println("add 22 " + prizes.add(22));
+        System.out.println("add 24 " + prizes.add(24));
     }
 }
