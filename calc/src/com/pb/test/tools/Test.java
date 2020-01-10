@@ -1,9 +1,10 @@
 package com.pb.test.tools;
 
-import com.pb.test.calc.Calculator;
+import com.pb.test.calc.SimpleCalculator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
+import java.security.InvalidParameterException;
 
 public class Test {
     public static void reflect(Object obj) {
@@ -67,6 +68,7 @@ public class Test {
         try {
             Method method = c.getDeclaredMethod(methodName, paramTypes);
             method.setAccessible(true);
+            checkIfImportantParamsAreSpecified(method, paramValues);
             Object result = method.invoke(obj, paramValues);
             System.out.println(" = " + result);
         } catch (NoSuchMethodException e) {
@@ -75,8 +77,26 @@ public class Test {
             System.err.println("cannot access method");
         } catch (InvocationTargetException e) {
             System.err.println(e);
+        } catch (InvalidParameterException e) {
+            System.err.println(e);
         } finally {
             System.out.println("Everything is under control");
+        }
+    }
+
+    private static void checkIfImportantParamsAreSpecified(Method method, Object[] values) {
+        int parameterIndex = 0;
+        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+        for (Annotation[] annotationsPerParameter : parameterAnnotations) {
+            for (Annotation annotation : annotationsPerParameter) {
+                if (annotation instanceof Important) {
+                    if (values[parameterIndex] == null) {
+                        String name = method.getParameters()[parameterIndex].getName();
+                        throw new InvalidParameterException("important parameter of " + method.getName() + " is null: " + name);
+                    }
+                }
+            }
+            parameterIndex++;
         }
     }
 
@@ -96,8 +116,11 @@ public class Test {
     public static void main(String[] args) {
         Class[] paramTypes = new Class[] {char.class, int.class, int.class};
         Object[] params = new Object[] {new Character('+'), new Integer(41), new Integer(13)};
-        Calculator calculator = (Calculator) createInstanceByClassName("com.pb.test.calc.Calculator");
+        SimpleCalculator calculator = (SimpleCalculator) createInstanceByClassName("com.pb.test.calc.SimpleCalculator");
         invokeMethodByName(calculator, "doCalculation", paramTypes, params);
+
+        Object[] paramsWithNull = new Object[] {new Character('+'), null, new Integer(13)};
+        invokeMethodByName(calculator, "doCalculation", paramTypes, paramsWithNull);
 
         createInstanceByClassName("com.pb.test.XXX");
         invokeMethodByName(calculator, "nonExisting", paramTypes, params);
