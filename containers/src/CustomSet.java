@@ -83,4 +83,9 @@ public class CustomSet<E> implements Set<E> {
     public void clear() {
         items.clear();
     }
+
+    @Override
+    public String toString() {
+        return items.toString();
+    }
 }
