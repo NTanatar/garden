@@ -3,9 +3,6 @@ public class Calculation implements Runnable {
     public void run() {
         double calc;
         for (int i = 0; i < 50000; i++) {
-
-            double randomValue = Math.random();
-
             calc = Math.sin(i * i);
             if (i % 10000 == 0) {
                 String result = String.format("%f", calc);
