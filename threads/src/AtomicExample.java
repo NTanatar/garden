@@ -11,8 +11,7 @@ public class AtomicExample {
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         IntStream.range(0, 1000).forEach(i -> {
-                Runnable task = () ->
-                    atomicInt.updateAndGet(n -> n + 5);
+                Runnable task = () -> atomicInt.updateAndGet(n -> n + 5);
                 executor.submit(task);
             });
         executor.shutdown();

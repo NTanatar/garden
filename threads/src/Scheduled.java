@@ -6,11 +6,8 @@ public class Scheduled {
 
     public static void main(String[] args) {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Hi there");
-            }
-        }, 0,2, TimeUnit.SECONDS);
+        service.scheduleAtFixedRate(() -> {
+            System.out.println("Hi there");
+        }, 0, 2, TimeUnit.SECONDS);
     }
 }
