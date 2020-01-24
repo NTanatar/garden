@@ -1,8 +1,8 @@
-public class SynchronizedQueue {
+public class SynchronizedQueue implements SharedQueue {
     int n;
     boolean valueSet = false;
 
-    synchronized int get() {
+    public synchronized int get() {
         if (!valueSet){
             try {
                 wait();
@@ -14,7 +14,7 @@ public class SynchronizedQueue {
         return n;
     }
 
-    synchronized void put(int n) {
+    public synchronized void put(int n) {
         if (valueSet){
             try {
                 wait();

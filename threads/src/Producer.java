@@ -1,7 +1,7 @@
 public class Producer implements Runnable {
-    SynchronizedQueue q;
+    SharedQueue q;
 
-    Producer(SynchronizedQueue q) {
+    Producer(SharedQueue q) {
         this.q = q;
         new Thread(this, "Producer").start();
     }

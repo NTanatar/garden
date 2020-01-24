@@ -1,7 +1,7 @@
 public class Consumer implements Runnable {
-    SynchronizedQueue q;
+    SharedQueue q;
 
-    Consumer(SynchronizedQueue q) {
+    Consumer(SharedQueue q) {
         this.q = q;
         new Thread(this, "Consumer").start();
     }
