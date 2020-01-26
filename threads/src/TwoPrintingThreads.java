@@ -1,3 +1,5 @@
+import java.util.concurrent.locks.ReentrantLock;
+
 public class TwoPrintingThreads {
 
     public static void main(String[] args) {
@@ -5,7 +7,7 @@ public class TwoPrintingThreads {
         t.setName("My Thread");
         System.out.println("current thread: " + t);
 
-        PrintNumbers pn = new PrintNumbers(8);
+        PrintNumbers pn = new PrintNumbers(8, new ReentrantLock());
         Thread p = new Thread(pn, "numbers");
         System.out.println("second: " + p);
 
